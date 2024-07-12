@@ -1,19 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:gemtool/app.dart';
+import 'package:gemtool/data/providers/genai_provider.dart';
 
 void main() async {
-  final apiKey = 'AIzaSyAkt1eUEy0PjhKUhu3LicGK7viureJc2xE';
-  if (apiKey == null) {
-    print('No \$API_KEY environment variable');
-    exit(1);
-  }
-  final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
-  final content = [Content.text('Write a story about a magic backpack.')];
-  final response = await model.generateContent(content);
-  print(response.text);
-
-  runApp(const MyApp());
+  runApp(const App());
 }
 
 class MyApp extends StatelessWidget {
@@ -68,11 +59,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  _MyHomePageState({GenaiProvider? genaiProvider})
+    : _genaiProvider = genaiProvider ?? GenaiProvider();
   int _counter = 0;
+  String? _text = '';
+
+  final GenaiProvider _genaiProvider;
 
 
 
-  void _incrementCounter() {
+  Future<String?> takeResponse() async {
+    final String? response = await _genaiProvider?.sendPrompt();
+
+    print(response);
+    return response;
+  }
+
+  Future<void> _incrementCounter() async {
+
+    final String? response = await takeResponse();
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -80,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      _text = response;
     });
   }
 
@@ -101,7 +107,34 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
+      body: HomeView(text: _text, counter: _counter),
+      floatingActionButton: HomeActionButton(), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  FloatingActionButton HomeActionButton() {
+    return FloatingActionButton(
+      onPressed: _incrementCounter,
+      tooltip: 'Increment',
+      child: const Icon(Icons.add),
+    );
+  }
+}
+
+class HomeView extends StatelessWidget {
+  const HomeView({
+    super.key,
+    required String? text,
+    required int counter,
+  }) : _text = text, _counter = counter;
+
+  final String? _text;
+  final int _counter;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
@@ -119,7 +152,11 @@ class _MyHomePageState extends State<MyHomePage> {
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
+
           children: <Widget>[
+            Text(
+              '$_text',
+            ),
             const Text(
               'You have pushed the button this many times:',
             ),
@@ -130,11 +167,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
