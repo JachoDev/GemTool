@@ -1,19 +1,25 @@
+import 'package:camera/camera.dart';
+import 'package:gemtool/main.dart';
 import 'package:flutter/material.dart';
+import 'package:gemtool/router/app_router.dart';
+import 'package:gemtool/ui/screens/camera/camera_screen.dart';
 import 'package:gemtool/ui/screens/home/home_screen.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  App({Key? key, required this.firstCamera }) : super(key: key);
+
+  final CameraDescription firstCamera;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'GemTool App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      routerConfig:AppRouter.router,
     );
   }
 }

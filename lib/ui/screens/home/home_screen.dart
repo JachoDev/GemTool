@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gemtool/ui/screens/home/widgets/home_view.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _counter++;
       _text = response;
     });
+    context.go('/camera');
   }
 
   @override

@@ -1,10 +1,15 @@
-import 'dart:io';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:gemtool/app.dart';
 import 'package:gemtool/data/providers/genai_provider.dart';
 
 void main() async {
-  runApp(const App());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final cameras = await availableCameras();
+  final firstCamera = cameras.first;
+
+  runApp(App(firstCamera: firstCamera));
 }
 
 class MyApp extends StatelessWidget {
