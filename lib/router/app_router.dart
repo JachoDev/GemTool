@@ -12,15 +12,17 @@ import 'package:go_router/go_router.dart';
           name: 'home',
           builder: ( context, state){
             return const HomeScreen();
-          }
-        ),
-        GoRoute(
-          path: '/camera',
-          name: 'camera',
-          builder: (context, state){
-            return CameraScreen();
           },
+          routes: [
+            GoRoute(
+              path: 'camera',
+              builder: (context, state){
+                return CameraScreen();
+              },
+            ),
+          ]
         ),
+
       ]
   );
 

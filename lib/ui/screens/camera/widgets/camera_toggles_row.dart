@@ -1,54 +1,27 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:gemtool/main.dart';
-import 'package:gemtool/ui/screens/camera/widgets/camera_view.dart';
+import 'package:gemtool/ui/screens/camera/camera_screen.dart';
 
+List<CameraDescription> _cameras = cameras;
 
-IconData getCameraLensIcon(CameraLensDirection direction) {
-  switch (direction) {
-    case CameraLensDirection.back:
-      return Icons.camera_rear;
-    case CameraLensDirection.front:
-      return Icons.camera_front;
-    case CameraLensDirection.external:
-      return Icons.camera;
-  }
-  // This enum is from a different package, so a new value could be added at
-  // any time. The example should keep working if that happens.
-  // ignore: dead_code
-  return Icons.camera;
-}
-
-class CameraScreen extends StatefulWidget {
-  CameraScreen({
+class CameraTogglesRow extends StatefulWidget {
+  CameraTogglesRow({
     super.key,
-  });
-
-  @override
-  _CameraScreenState createState() => _CameraScreenState();
-}
-
-class _CameraScreenState extends State<CameraScreen>
-    with WidgetsBindingObserver, TickerProviderStateMixin {
+    required CameraController? controller,
+  }) : controller = controller;
 
   CameraController? controller;
+  @override
+  _CameraTogglesRowState createState() => _CameraTogglesRowState();
+}
+class _CameraTogglesRowState extends State<CameraTogglesRow> with WidgetsBindingObserver, TickerProviderStateMixin {
   double _minAvailableExposureOffset = 0.0;
   double _maxAvailableExposureOffset = 0.0;
-  double _currentExposureOffset = 0.0;
-  late AnimationController _flashModeControlRowAnimationController;
-  late Animation<double> _flashModeControlRowAnimation;
-  late AnimationController _exposureModeControlRowAnimationController;
-  late Animation<double> _exposureModeControlRowAnimation;
-  late AnimationController _focusModeControlRowAnimationController;
-  late Animation<double> _focusModeControlRowAnimation;
   double _minAvailableZoom = 1.0;
   double _maxAvailableZoom = 1.0;
-  double _currentScale = 1.0;
-  double _baseScale = 1.0;
 
   void showInSnackBar(String message) {
     ScaffoldMessenger.of(context)
@@ -61,8 +34,8 @@ class _CameraScreenState extends State<CameraScreen>
   }
 
   Future<void> onNewCameraSelected(CameraDescription cameraDescription) async {
-    if (controller != null) {
-      return controller!.setDescription(cameraDescription);
+    if (widget.controller != null) {
+      return widget.controller!.setDescription(cameraDescription);
     } else {
       return _initializeCameraController(cameraDescription);
     }
@@ -76,7 +49,7 @@ class _CameraScreenState extends State<CameraScreen>
       imageFormatGroup: ImageFormatGroup.jpeg,
     );
 
-    controller = cameraController;
+    widget.controller = cameraController;
 
     // If the controller is updated then update the UI.
     cameraController.addListener(() {
@@ -138,49 +111,15 @@ class _CameraScreenState extends State<CameraScreen>
     }
   }
 
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-
-    _flashModeControlRowAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _flashModeControlRowAnimation = CurvedAnimation(
-      parent: _flashModeControlRowAnimationController,
-      curve: Curves.easeInCubic,
-    );
-    _exposureModeControlRowAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _exposureModeControlRowAnimation = CurvedAnimation(
-      parent: _exposureModeControlRowAnimationController,
-      curve: Curves.easeInCubic,
-    );
-    _focusModeControlRowAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _focusModeControlRowAnimation = CurvedAnimation(
-      parent: _focusModeControlRowAnimationController,
-      curve: Curves.easeInCubic,
-    );
-    print('hola mundo');
-  }
-
   @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    _flashModeControlRowAnimationController.dispose();
-    _exposureModeControlRowAnimationController.dispose();
-    super.dispose();
+  void initState(){
+    super.initState();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    final CameraController? cameraController = controller;
+    final CameraController? cameraController = widget.controller;
 
     if(cameraController == null || !cameraController.value.isInitialized) {
       return;
@@ -196,14 +135,47 @@ class _CameraScreenState extends State<CameraScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text('Camera'),
-      ),
-      //backgroundColor: Colors.black,
-      body: CameraView(controller: controller),
-    );
+    final List<Widget> toggles = <Widget>[];
+
+    void showInSnackBar(String message) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+    }
+
+    void _showCameraException(CameraException e) {
+      logError(e.code, e.description);
+      showInSnackBar('Error: ${e.code}\n${e.description}');
+    }
+
+    void onChanged(CameraDescription? description) {
+      if (description == null) {
+        return;
+      }
+
+      onNewCameraSelected(description);
+    }
+
+    if (_cameras.isEmpty) {
+      SchedulerBinding.instance.addPostFrameCallback((_) async {
+        showInSnackBar('No camera found.');
+      });
+      return const Text('None');
+    } else {
+      for (final CameraDescription cameraDescription in _cameras) {
+        toggles.add(
+          SizedBox(
+            width: 90.0,
+            child: RadioListTile<CameraDescription>(
+              title: Icon(getCameraLensIcon(cameraDescription.lensDirection)),
+              groupValue: widget.controller?.description,
+              value: cameraDescription,
+              onChanged: onChanged,
+            ),
+          ),
+        );
+      }
+    }
+
+    return Row(children: toggles);
   }
 }
-

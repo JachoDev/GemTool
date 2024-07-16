@@ -6,9 +6,7 @@ import 'package:gemtool/ui/screens/camera/camera_screen.dart';
 import 'package:gemtool/ui/screens/home/home_screen.dart';
 
 class App extends StatelessWidget {
-  App({Key? key, required this.firstCamera }) : super(key: key);
-
-  final CameraDescription firstCamera;
+  App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
