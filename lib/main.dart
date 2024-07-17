@@ -19,5 +19,5 @@ Future<void> main() async {
   } on CameraException catch(e) {
     logError(e.code, e.description);
   }
-  runApp(App());
+  runApp(const App());
 }

@@ -17,8 +17,8 @@ class ExposureModeControlRow extends StatefulWidget {
 }
 
 class _ExposureModeControlRowState extends State<ExposureModeControlRow> {
-  double _minAvailableExposureOffset = 0.0;
-  double _maxAvailableExposureOffset = 0.0;
+  final double _minAvailableExposureOffset = 0.0;
+  final double _maxAvailableExposureOffset = 0.0;
   double _currentExposureOffset = 0.0;
 
   void showInSnackBar(String message) {

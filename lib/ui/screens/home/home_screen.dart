@@ -14,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String? _text = '';
 
   Future<void> _incrementCounter() async {
-    final String? response = 'This is the first resolution';
+    const String response = 'This is the first resolution';
     setState(() {
       _counter++;
       _text = response;
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Home'),
+        title: const Text('Home'),
       ),
       body: HomeView(text: _text, counter: _counter),
       floatingActionButton: HomeActionButton(),

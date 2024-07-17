@@ -7,9 +7,12 @@ class CameraAppPreview extends StatelessWidget {
     required CameraController? controller,
   }) : controller = controller;
 
+
+  //CameraController? _controller = CameraTogglesRowState().widget.controller;
+
   CameraController? controller;
-  double _minAvailableZoom = 1.0;
-  double _maxAvailableZoom = 1.0;
+  final double _minAvailableZoom = 1.0;
+  final double _maxAvailableZoom = 1.0;
   double _currentScale = 1.0;
   double _baseScale = 1.0;
   int _pointers = 0;
@@ -48,6 +51,8 @@ class CameraAppPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CameraController? cameraController = controller;
+
+    print(controller);
 
     if (cameraController == null || !cameraController.value.isInitialized) {
       return const Text(

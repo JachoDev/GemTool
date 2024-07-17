@@ -97,24 +97,6 @@ class _CaptureControlRowState extends State<CaptureControlRow> {
               : null,
         ),
         IconButton(
-          icon: const Icon(Icons.videocam),
-          color: Colors.blue,
-          onPressed: null,
-        ),
-        IconButton(
-          icon: cameraController != null &&
-              cameraController.value.isRecordingPaused
-              ? const Icon(Icons.play_arrow)
-              : const Icon(Icons.pause),
-          color: Colors.blue,
-          onPressed: null,
-        ),
-        IconButton(
-          icon: const Icon(Icons.stop),
-          color: Colors.red,
-          onPressed: null,
-        ),
-        IconButton(
           icon: const Icon(Icons.pause_presentation),
           color:
           cameraController != null && cameraController.value.isPreviewPaused

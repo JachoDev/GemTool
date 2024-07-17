@@ -15,9 +15,9 @@ class CameraTogglesRow extends StatefulWidget {
 
   CameraController? controller;
   @override
-  _CameraTogglesRowState createState() => _CameraTogglesRowState();
+  CameraTogglesRowState createState() => CameraTogglesRowState();
 }
-class _CameraTogglesRowState extends State<CameraTogglesRow> with WidgetsBindingObserver, TickerProviderStateMixin {
+class CameraTogglesRowState extends State<CameraTogglesRow> with WidgetsBindingObserver, TickerProviderStateMixin {
   double _minAvailableExposureOffset = 0.0;
   double _maxAvailableExposureOffset = 0.0;
   double _minAvailableZoom = 1.0;
@@ -109,11 +109,18 @@ class _CameraTogglesRowState extends State<CameraTogglesRow> with WidgetsBinding
     if (mounted) {
       setState(() {});
     }
+    print('object');
   }
 
   @override
   void initState(){
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
@@ -130,19 +137,20 @@ class _CameraTogglesRowState extends State<CameraTogglesRow> with WidgetsBinding
     } else if (state == AppLifecycleState.resumed) {
       _initializeCameraController(cameraController.description);
     }
-    print('hola mundo dos');
   }
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> toggles = <Widget>[];
-
+    
+    print(widget.controller);
+    
     void showInSnackBar(String message) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(message)));
     }
 
-    void _showCameraException(CameraException e) {
+    void showCameraException(CameraException e) {
       logError(e.code, e.description);
       showInSnackBar('Error: ${e.code}\n${e.description}');
     }

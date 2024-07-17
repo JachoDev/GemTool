@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:gemtool/main.dart';
 import 'package:gemtool/ui/screens/camera/widgets/camera_app_preview.dart';
 import 'package:gemtool/ui/screens/camera/widgets/camera_toggles_row.dart';
 import 'package:gemtool/ui/screens/camera/widgets/capture_control_row.dart';
@@ -13,6 +12,7 @@ class CameraView extends StatefulWidget {
   }) : controller = controller;
 
   CameraController? controller;
+  @override
   _CameraViewState createState() => _CameraViewState();
 }
 class _CameraViewState extends State<CameraView> {

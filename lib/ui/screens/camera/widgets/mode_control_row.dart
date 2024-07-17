@@ -154,7 +154,7 @@ class _ModeControlRowState extends State<ModeControlRow> with WidgetsBindingObse
               )
             ]
                 : <Widget>[],
-            IconButton(
+            const IconButton(
               icon: Icon(true ? Icons.volume_up : Icons.volume_mute),
               color: Colors.blue,
               onPressed: null,

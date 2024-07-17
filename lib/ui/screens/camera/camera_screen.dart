@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gemtool/main.dart';
 import 'package:gemtool/ui/screens/camera/widgets/camera_view.dart';
 
+List<CameraDescription> _cameras = cameras;
 
 IconData getCameraLensIcon(CameraLensDirection direction) {
   switch (direction) {
@@ -24,7 +24,7 @@ IconData getCameraLensIcon(CameraLensDirection direction) {
 }
 
 class CameraScreen extends StatefulWidget {
-  CameraScreen({
+  const CameraScreen({
     super.key,
   });
 
@@ -38,7 +38,7 @@ class _CameraScreenState extends State<CameraScreen>
   CameraController? controller;
   double _minAvailableExposureOffset = 0.0;
   double _maxAvailableExposureOffset = 0.0;
-  double _currentExposureOffset = 0.0;
+  final double _currentExposureOffset = 0.0;
   late AnimationController _flashModeControlRowAnimationController;
   late Animation<double> _flashModeControlRowAnimation;
   late AnimationController _exposureModeControlRowAnimationController;
@@ -47,8 +47,8 @@ class _CameraScreenState extends State<CameraScreen>
   late Animation<double> _focusModeControlRowAnimation;
   double _minAvailableZoom = 1.0;
   double _maxAvailableZoom = 1.0;
-  double _currentScale = 1.0;
-  double _baseScale = 1.0;
+  final double _currentScale = 1.0;
+  final double _baseScale = 1.0;
 
   void showInSnackBar(String message) {
     ScaffoldMessenger.of(context)
@@ -138,9 +138,11 @@ class _CameraScreenState extends State<CameraScreen>
     }
   }
 
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _initializeCameraController(_cameras.last);
 
     _flashModeControlRowAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
@@ -191,15 +193,15 @@ class _CameraScreenState extends State<CameraScreen>
     } else if (state == AppLifecycleState.resumed) {
       _initializeCameraController(cameraController.description);
     }
-    print('hola mundo dos');
   }
 
   @override
   Widget build(BuildContext context) {
+    print(controller);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text('Camera'),
+        title: const Text('Camera'),
       ),
       //backgroundColor: Colors.black,
       body: CameraView(controller: controller),
