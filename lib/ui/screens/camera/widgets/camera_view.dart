@@ -6,12 +6,12 @@ import 'package:gemtool/ui/screens/camera/widgets/capture_control_row.dart';
 import 'package:gemtool/ui/screens/camera/widgets/mode_control_row.dart';
 
 class CameraView extends StatefulWidget {
-  CameraView({
+  const CameraView({
     super.key,
-    required CameraController? controller,
-  }) : controller = controller;
+    this.controller,
+  });
 
-  CameraController? controller;
+  final CameraController? controller;
   @override
   _CameraViewState createState() => _CameraViewState();
 }

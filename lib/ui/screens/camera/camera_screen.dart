@@ -38,7 +38,6 @@ class _CameraScreenState extends State<CameraScreen>
   CameraController? controller;
   double _minAvailableExposureOffset = 0.0;
   double _maxAvailableExposureOffset = 0.0;
-  final double _currentExposureOffset = 0.0;
   late AnimationController _flashModeControlRowAnimationController;
   late Animation<double> _flashModeControlRowAnimation;
   late AnimationController _exposureModeControlRowAnimationController;
@@ -47,8 +46,6 @@ class _CameraScreenState extends State<CameraScreen>
   late Animation<double> _focusModeControlRowAnimation;
   double _minAvailableZoom = 1.0;
   double _maxAvailableZoom = 1.0;
-  final double _currentScale = 1.0;
-  final double _baseScale = 1.0;
 
   void showInSnackBar(String message) {
     ScaffoldMessenger.of(context)
@@ -58,14 +55,6 @@ class _CameraScreenState extends State<CameraScreen>
   void _showCameraException(CameraException e) {
     logError(e.code, e.description);
     showInSnackBar('Error: ${e.code}\n${e.description}');
-  }
-
-  Future<void> onNewCameraSelected(CameraDescription cameraDescription) async {
-    if (controller != null) {
-      return controller!.setDescription(cameraDescription);
-    } else {
-      return _initializeCameraController(cameraDescription);
-    }
   }
 
   Future<void> _initializeCameraController(
@@ -168,7 +157,6 @@ class _CameraScreenState extends State<CameraScreen>
       parent: _focusModeControlRowAnimationController,
       curve: Curves.easeInCubic,
     );
-    print('hola mundo');
   }
 
   @override
@@ -197,7 +185,9 @@ class _CameraScreenState extends State<CameraScreen>
 
   @override
   Widget build(BuildContext context) {
-    print(controller);
+    if (kDebugMode) {
+      print(controller);
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,

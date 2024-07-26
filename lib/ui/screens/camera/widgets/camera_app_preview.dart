@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 class CameraAppPreview extends StatelessWidget {
   CameraAppPreview({
     super.key,
-    required CameraController? controller,
-  }) : controller = controller;
+    this.controller,
+  });
 
-
-  //CameraController? _controller = CameraTogglesRowState().widget.controller;
-
-  CameraController? controller;
+  final CameraController? controller;
   final double _minAvailableZoom = 1.0;
   final double _maxAvailableZoom = 1.0;
+
   double _currentScale = 1.0;
   double _baseScale = 1.0;
   int _pointers = 0;

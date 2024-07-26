@@ -30,12 +30,12 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Home'),
       ),
       body: HomeView(text: _text, counter: _counter),
-      floatingActionButton: HomeActionButton(),
+      floatingActionButton: homeActionButton(),
 
     );
   }
 
-  FloatingActionButton HomeActionButton() {
+  FloatingActionButton homeActionButton() {
     return FloatingActionButton(
       onPressed: _incrementCounter,
       tooltip: 'Increment',
