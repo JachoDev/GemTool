@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _counter++;
       _text = response;
     });
-    context.go('/camera');
+    //context.go('/camera');
   }
 
   @override
