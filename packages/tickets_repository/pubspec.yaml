@@ -1,0 +1,16 @@
+name: tickets_repository
+description: A repository that handles ticket related requests.
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ^3.4.0
+
+dependencies:
+  ticket_api:
+    path: ../ticket_api
+
+dev_dependencies:
+  mocktail: ^1.0.4
+  test: ^1.25.7
+  very_good_analysis: ^6.0.0

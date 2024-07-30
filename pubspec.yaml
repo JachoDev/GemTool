@@ -28,9 +28,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  bloc: ^8.1.1
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -45,9 +46,19 @@ dependencies:
   task_scheduler: ^0.0.3
   flutter_bloc: ^8.1.6
 
+  local_storage_ticket_api:
+    path: packages/local_storage_ticket_api
+  ticket_api:
+    path: packages/ticket_api
+  tickets_repository:
+    path: packages/tickets_repository
+
 dev_dependencies:
+  bloc_test: ^9.1.0
   flutter_test:
     sdk: flutter
+  mockingjay: ^0.5.0
+  mocktail: ^1.0.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -66,6 +77,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:
