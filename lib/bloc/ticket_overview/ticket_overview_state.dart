@@ -1,6 +1,6 @@
 part of 'ticket_overview_bloc.dart';
 
-enum TicketOverviewStatus {initial, loading, succes, failure }
+enum TicketOverviewStatus {initial, loading, success, failure }
 
 final class TicketOverviewState extends Equatable {
   const TicketOverviewState({

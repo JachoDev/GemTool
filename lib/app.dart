@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gemtool/router/app_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gemtool/ui/theme/theme.dart';
 import 'package:tickets_repository/tickets_repository.dart';
 
 class App extends StatelessWidget {
@@ -15,10 +16,8 @@ class App extends StatelessWidget {
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'GemTool App',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-          useMaterial3: true,
-        ),
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
         routerConfig: AppRouter.router,
       ),
     );

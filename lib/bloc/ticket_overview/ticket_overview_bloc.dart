@@ -33,7 +33,7 @@ class TicketOverviewBloc extends Bloc<TicketOverviewEvent, TicketOverviewState> 
     await emit.forEach<List<Ticket>>(
       _ticketsRepository.getTickets(),
       onData: (tickets) => state.copyWith(
-        status: () => TicketOverviewStatus.succes,
+        status: () => TicketOverviewStatus.success,
         tickets: () => tickets,
       ),
       onError: (_, __) => state.copyWith(
@@ -91,5 +91,12 @@ class TicketOverviewBloc extends Bloc<TicketOverviewEvent, TicketOverviewState> 
         Emitter<TicketOverviewState> emit,
       ) async {
 
+  }
+
+  Future<void> _onAddTap(
+        TicketOverviewAddNewTicket event,
+        Emitter<TicketOverviewState> emit,
+      ) async {
+    //emit(state.copyWith(status: TicketOverviewStatus.loading));
   }
 }

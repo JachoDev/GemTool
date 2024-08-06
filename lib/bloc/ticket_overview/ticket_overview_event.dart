@@ -48,3 +48,7 @@ class TicketOverviewToggleAllRequested extends TicketOverviewEvent {
 class TicketOverviewClearSelectedRequested extends TicketOverviewEvent {
   const TicketOverviewClearSelectedRequested();
 }
+
+class TicketOverviewAddNewTicket extends TicketOverviewEvent {
+  const TicketOverviewAddNewTicket();
+}

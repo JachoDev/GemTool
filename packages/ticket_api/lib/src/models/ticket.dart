@@ -14,8 +14,15 @@ class Ticket extends Equatable {
     required this.title,
     String? id,
     this.description = '',
+    this.name = '',
+    this.phone = '',
     this.address = '',
-    this.isATicket = false,
+    this.dateTime = '',
+    this.subtotal = 0.0,
+    this.taxes = 0.0,
+    this.total = 0.0,
+    this.isSelected = false,
+    this.isATicket = true,
   }) : assert(
       id == null || id.isNotEmpty,
       'id must either be null or not empty'
@@ -28,7 +35,21 @@ class Ticket extends Equatable {
 
   final String description;
 
+  final String name;
+
+  final String phone;
+
   final String address;
+
+  final String dateTime;
+
+  final double subtotal;
+
+  final double taxes;
+
+  final double total;
+
+  final bool isSelected;
 
   final bool  isATicket;
 
@@ -36,14 +57,28 @@ class Ticket extends Equatable {
     String? id,
     String? title,
     String? description,
+    String? name,
+    String? phone,
     String? address,
+    String? dateTime,
+    double? subtotal,
+    double? taxes,
+    double? total,
+    bool? isSelected,
     bool? isATicket,
   }) {
     return Ticket(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
       address: address ?? this.address,
+      dateTime: dateTime ?? this.dateTime,
+      subtotal: subtotal ?? this.subtotal,
+      taxes: taxes ?? this.taxes,
+      total: total ?? this.total,
+      isSelected: isSelected ?? this.isSelected,
       isATicket: isATicket ?? this.isATicket,
     );
   }
@@ -53,5 +88,5 @@ class Ticket extends Equatable {
   JsonMap toJson() => _$TicketToJson(this);
 
   @override
-  List<Object> get props => [id, title, description, isATicket];
+  List<Object> get props => [id, title, description,  isATicket];
 }
