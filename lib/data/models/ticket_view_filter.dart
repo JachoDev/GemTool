@@ -1,16 +1,16 @@
 import 'package:tickets_repository/tickets_repository.dart';
 
-enum TicketViewFilter {all, activeOnly, selectedOnly}
+enum TicketViewFilter {all, unselectedOnly, selectedOnly}
 
 extension TicketViewFilterX on TicketViewFilter {
   bool apply(Ticket ticket) {
     switch(this) {
       case TicketViewFilter.all:
         return true;
-      case TicketViewFilter.activeOnly:
-        return false;
+      case TicketViewFilter.unselectedOnly:
+        return !ticket.isSelected;
       case TicketViewFilter.selectedOnly:
-        return false;
+        return ticket.isSelected;
     }
   }
 

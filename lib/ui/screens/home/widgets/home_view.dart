@@ -1,35 +1,60 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:gemtool/bloc/bloc.dart';
+import 'widgets.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({
     super.key,
-    required String? text,
-    required int counter,
-  }) : _text = text, _counter = counter;
-
-  final String? _text;
-  final int _counter;
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '$_text',
-            ),
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<TicketOverviewBloc, TicketOverviewState>(
+          listenWhen: (previous, current) =>
+          previous.status != current.status,
+          listener: (context, state) {
+            if (state.status == TicketOverviewStatus.failure) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  const SnackBar(content: Text('Error on ticket overview state')),
+                );
+            }
+          },
         ),
-      ),
+        BlocListener<TicketOverviewBloc, TicketOverviewState>(
+          listenWhen: (previous, current) =>
+          previous.lastDeletedTicket != current.lastDeletedTicket &&
+              current.lastDeletedTicket != null,
+          listener: (context, state) {
+            final deletedTicket = state.lastDeletedTicket!;
+            final messenger = ScaffoldMessenger.of(context);
+            messenger
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                    content: Text('Deleted "${deletedTicket.title}"'),
+                    action: SnackBarAction(
+                      label: 'Undo delete ticket',
+                      onPressed: () {
+                        messenger.hideCurrentSnackBar();
+                        context
+                            .read<TicketOverviewBloc>()
+                            .add(const TicketOverviewUndoDeletionRequested());
+                      },
+                    )
+                ),
+              );
+          },
+        ),
+      ],
+      child: const TicketList(),
     );
   }
 }
+

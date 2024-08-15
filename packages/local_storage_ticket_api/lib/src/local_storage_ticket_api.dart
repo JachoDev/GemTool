@@ -73,22 +73,42 @@ class LocalStorageTicketApi extends TicketApi{
     }
   }
 
-//Functions to edit ticket information
-
   @override
   Future<void> close() {
     return _ticketStreamController.close();
   }
 
   @override
-  Future<int> clearCompleted() {
-    // TODO: implement clearCompleted
-    throw UnimplementedError();
+  Future<int> deleteAll() async {
+    final tickets = [..._ticketStreamController.value];
+    final deletedTicketsAmount = tickets.length;
+    tickets.clear();
+    _ticketStreamController.add(tickets);
+    await _setValue(kTicketCollectionKey, json.encode(tickets));
+    return deletedTicketsAmount;
   }
 
   @override
-  Future<int> completeAll({required bool isCompleted}) {
-    // TODO: implement completeAll
-    throw UnimplementedError();
+  Future<int> clearSelected() async {
+    final tickets = [..._ticketStreamController.value];
+    final selectedTicketsAmount = tickets.where((t) => t.isSelected).length;
+    tickets.removeWhere((t) => t.isSelected);
+    _ticketStreamController.add(tickets);
+    await _setValue(kTicketCollectionKey, json.encode(tickets));
+    return selectedTicketsAmount;
   }
+
+  @override
+  Future<int> selectAll({required bool isSelected}) async {
+    final tickets = [..._ticketStreamController.value];
+    final changedTicketsAmount =
+        tickets.where((t) => t.isSelected != isSelected).length;
+    final newTickets = [
+      for (final ticket in tickets) ticket.copyWith(isSelected: isSelected),
+    ];
+    _ticketStreamController.add(newTickets);
+    await _setValue(kTicketCollectionKey, json.encode(newTickets));
+    return changedTicketsAmount;
+  }
+
 }

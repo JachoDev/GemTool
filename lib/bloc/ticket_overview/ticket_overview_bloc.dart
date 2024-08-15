@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:ticket_api/ticket_api.dart';
-import 'package:gemtool/data/data.dart';
 import 'package:tickets_repository/tickets_repository.dart';
+
+import 'package:gemtool/data/data.dart';
 
 part 'ticket_overview_event.dart';
 part 'ticket_overview_state.dart';
@@ -46,7 +45,7 @@ class TicketOverviewBloc extends Bloc<TicketOverviewEvent, TicketOverviewState> 
         TicketOverviewTicketCompletionToggled event,
         Emitter<TicketOverviewState> emit,
       ) async {
-    final newTicket = event.ticket.copyWith();
+    final newTicket = event.ticket.copyWith(isSelected: event.isSelected);
     await _ticketsRepository.saveTicket(newTicket);
   }
 
@@ -83,20 +82,16 @@ class TicketOverviewBloc extends Bloc<TicketOverviewEvent, TicketOverviewState> 
         TicketOverviewToggleAllRequested event,
         Emitter<TicketOverviewState> emit,
       ) async {
-    final areAllCompleted = state.tickets.every((ticket) => ticket.isATicket);
+    final areAllSelected
+        = state.tickets.every((ticket) => ticket.isSelected);
+    await _ticketsRepository.selectAll(isSelected: !areAllSelected);
   }
 
   Future<void> _onClearSelectedRequested(
         TicketOverviewClearSelectedRequested event,
         Emitter<TicketOverviewState> emit,
       ) async {
-
+    await _ticketsRepository.clearSelected();
   }
 
-  Future<void> _onAddTap(
-        TicketOverviewAddNewTicket event,
-        Emitter<TicketOverviewState> emit,
-      ) async {
-    //emit(state.copyWith(status: TicketOverviewStatus.loading));
-  }
 }

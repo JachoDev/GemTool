@@ -19,7 +19,7 @@ class TicketListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final captionColor = theme.textTheme.bodySmall?.color;
+
     return Dismissible(
       key: Key('ticketListTile_dismissible_${ticket.id}'),
       onDismissed: onDismissed,
@@ -39,12 +39,6 @@ class TicketListTile extends StatelessWidget {
           ticket.title,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: !ticket.isATicket
-              ? null
-              : TextStyle(
-                  color: captionColor,
-                  decoration: TextDecoration.lineThrough,
-                ),
         ),
         subtitle: Text(
           ticket.description,
@@ -55,7 +49,7 @@ class TicketListTile extends StatelessWidget {
           shape: const ContinuousRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
-          value: ticket.isATicket,
+          value: ticket.isSelected,
           onChanged: onToggleCompleted == null 
               ? null
               : (value) => onToggleCompleted!(value!),

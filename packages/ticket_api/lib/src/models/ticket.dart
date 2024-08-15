@@ -88,5 +88,6 @@ class Ticket extends Equatable {
   JsonMap toJson() => _$TicketToJson(this);
 
   @override
-  List<Object> get props => [id, title, description,  isATicket];
+  List<Object> get props => [id, title, description, name, phone, address,
+      dateTime, subtotal, taxes, total, isSelected, isATicket];
 }

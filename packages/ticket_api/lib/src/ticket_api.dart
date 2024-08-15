@@ -12,9 +12,11 @@ abstract class TicketApi {
 
   Future<void> deleteTicket(String id);
 
-  Future<int> clearCompleted();
+  Future<int> deleteAll();
 
-  Future<int> completeAll({required bool  isCompleted});
+  Future<int> clearSelected();
+
+  Future<int> selectAll({required bool  isSelected});
 
   Future<void> close();
 }

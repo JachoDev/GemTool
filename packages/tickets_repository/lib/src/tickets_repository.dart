@@ -16,4 +16,11 @@ class TicketsRepository {
 
   Future<void> deleteTicket(String id) => _ticketApi.deleteTicket(id);
 
+  Future<int> clearSelected() => _ticketApi.clearSelected();
+
+  Future<int> deleteAll() => _ticketApi.deleteAll();
+
+  Future<int> selectAll({required bool isSelected}) =>
+      _ticketApi.selectAll(isSelected: isSelected);
+
 }

@@ -14,12 +14,14 @@ final class TicketOverviewSubscriptionRequested extends TicketOverviewEvent {
 final class TicketOverviewTicketCompletionToggled extends TicketOverviewEvent {
   const TicketOverviewTicketCompletionToggled({
     required this.ticket,
+    required this.isSelected,
   });
 
   final Ticket ticket;
+  final bool isSelected;
 
   @override
-  List<Object> get props => [ticket];
+  List<Object> get props => [ticket, isSelected];
 }
 
 final class TicketOverviewTicketDeleted extends TicketOverviewEvent {
