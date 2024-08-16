@@ -44,12 +44,14 @@ class LocalStorageTicketApi extends TicketApi{
   }
 
   @override
-  Stream<List<Ticket>> getTickets() => _ticketStreamController.asBroadcastStream();
+  Stream<List<Ticket>> getTickets() =>
+      _ticketStreamController.asBroadcastStream();
 
   @override
   Future<void> saveTicket(Ticket ticket) {
     final tickets = [..._ticketStreamController.value];
-    final ticketIndex = tickets.indexWhere((t) => t.id == ticket.id);
+    final ticketIndex =
+        tickets.indexWhere((t) => t.id == ticket.id);
     if (ticketIndex >= 0) {
       tickets[ticketIndex] = ticket;
     } else {
