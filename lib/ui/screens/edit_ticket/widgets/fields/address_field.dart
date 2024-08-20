@@ -13,16 +13,16 @@ class AddressField extends StatelessWidget {
     final hintText = state.initialTicket?.address ?? '';
 
     return TextFormField(
-      key: const Key('editTodoView_title_textFormField'),
+      key: const Key('editTodoView_address_textFormField'),
       initialValue: state.address,
       decoration: InputDecoration(
         enabled: !state.status.isLoadingOrSuccess,
         labelText: 'Address',
         hintText: hintText,
       ),
-      maxLength: 50,
+      maxLength: 100,
       inputFormatters: [
-        LengthLimitingTextInputFormatter(50),
+        LengthLimitingTextInputFormatter(100),
         FilteringTextInputFormatter.allow(
           RegExp(r'[a-zA-Z0-9\s]'),
         ),

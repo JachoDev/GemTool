@@ -36,12 +36,12 @@ class TicketListTile extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         title: Text(
-          ticket.title,
+          '${ticket.name} ${ticket.dateTime}',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
         subtitle: Text(
-          ticket.description,
+          ticket.total.toString(),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),

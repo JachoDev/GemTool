@@ -1,6 +1,12 @@
 part of 'ticket_overview_bloc.dart';
 
-enum TicketOverviewStatus {initial, loading, success, failure }
+enum TicketOverviewStatus { initial, loading, success, failure }
+
+extension TicketOverviewStatusX on TicketOverviewStatus {
+  bool get isLoadingOrSuccess => [
+    TicketOverviewStatus.success,
+  ].contains(this);
+}
 
 final class TicketOverviewState extends Equatable {
   const TicketOverviewState({

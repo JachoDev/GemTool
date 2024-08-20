@@ -10,11 +10,11 @@ class TotalField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<EditTicketBloc>().state;
-    final hintText = state.initialTicket?.total.toString() ?? '00.00';
+    final hintText = state.initialTicket?.total.toStringAsFixed(2) ?? '00.00';
 
     return TextFormField(
-      key: const Key('editTodoView_title_textFormField'),
-      initialValue: state.total.toString(),
+      key: const Key('editTodoView_total_textFormField'),
+      initialValue: state.total.toStringAsFixed(2),
       decoration: InputDecoration(
         enabled: !state.status.isLoadingOrSuccess,
         labelText: 'Total',

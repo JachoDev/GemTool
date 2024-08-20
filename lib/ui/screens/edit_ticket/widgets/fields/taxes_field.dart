@@ -10,11 +10,11 @@ class TaxesField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<EditTicketBloc>().state;
-    final hintText = state.initialTicket?.taxes.toString() ?? '00.00';
+    final hintText = state.initialTicket?.taxes.toStringAsFixed(2) ?? '00.00';
 
     return TextFormField(
-      key: const Key('editTodoView_title_textFormField'),
-      initialValue: state.taxes.toString(),
+      key: const Key('editTodoView_taxes_textFormField'),
+      initialValue: state.taxes.toStringAsFixed(2),
       decoration: InputDecoration(
         enabled: !state.status.isLoadingOrSuccess,
         labelText: 'Taxes',

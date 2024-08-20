@@ -13,7 +13,7 @@ class DescriptionField extends StatelessWidget {
     final hintText = state.initialTicket?.description ?? '';
 
     return TextFormField(
-      key: const Key('editTodoView_title_textFormField'),
+      key: const Key('editTodoView_description_textFormField'),
       initialValue: state.description,
       decoration: InputDecoration(
         enabled: !state.status.isLoadingOrSuccess,

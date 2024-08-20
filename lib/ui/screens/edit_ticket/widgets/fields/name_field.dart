@@ -13,7 +13,7 @@ class NameField extends StatelessWidget {
     final hintText = state.initialTicket?.name ?? '';
 
     return TextFormField(
-      key: const Key('editTodoView_title_textFormField'),
+      key: const Key('editTodoView_name_textFormField'),
       initialValue: state.name,
       decoration: InputDecoration(
         enabled: !state.status.isLoadingOrSuccess,
@@ -26,7 +26,7 @@ class NameField extends StatelessWidget {
         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\s]')),
       ],
       onChanged: (value) {
-        context.read<EditTicketBloc>().add(EditTicketTitleChanged(value));
+        context.read<EditTicketBloc>().add(EditTicketNameChanged(value));
       },
     );
   }

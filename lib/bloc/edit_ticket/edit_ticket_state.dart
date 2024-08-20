@@ -61,7 +61,7 @@ final class EditTicketState extends Equatable {
       address: address ?? this.address,
       dateTime: dateTime ?? this.dateTime,
       subtotal: subtotal ?? this.subtotal,
-      taxes: taxes ?? this.subtotal,
+      taxes: taxes ?? this.taxes,
       total: total ?? this.total,
     );
   }

@@ -1,5 +1,9 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:tickets_repository/tickets_repository.dart';
 
 part 'edit_ticket_event.dart';
@@ -114,14 +118,17 @@ class EditTicketBloc extends Bloc<EditTicketEvent, EditTicketState> {
       address: state.address,
       dateTime: state.dateTime,
       subtotal: state.subtotal,
+      taxes: state.taxes,
       total: state.total,
     );
 
     try {
       await _ticketsRepository.saveTicket(ticket);
       emit(state.copyWith(status: EditTicketStatus.success));
+
     } catch (e) {
       emit(state.copyWith(status: EditTicketStatus.failure));
     }
+
   }
 }

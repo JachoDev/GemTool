@@ -13,7 +13,7 @@ class PhoneField extends StatelessWidget {
     final hintText = state.initialTicket?.phone ?? '';
 
     return TextFormField(
-      key: const Key('editTodoView_title_textFormField'),
+      key: const Key('editTodoView_phone_textFormField'),
       initialValue: state.phone,
       decoration: InputDecoration(
         enabled: !state.status.isLoadingOrSuccess,

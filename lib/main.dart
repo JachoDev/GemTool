@@ -13,21 +13,13 @@ void logError(String code, String? message) {
   print('Error: $code${message == null ? '' : '\nError Message: $message'}');
 }
 
-List<CameraDescription> cameras = <CameraDescription>[];
-
 Future<void> main() async {
-  BindingBase.debugZoneErrorsAreFatal = false;
+
   WidgetsFlutterBinding.ensureInitialized();
 
   final TicketApi ticketApi = LocalStorageTicketApi(
     plugin: await SharedPreferences.getInstance(),
   );
-
-  try {
-    cameras = await availableCameras();
-  } on CameraException catch(e) {
-    logError(e.code, e.description);
-  }
 
   bootstrap(ticketApi: ticketApi);
 }

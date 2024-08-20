@@ -26,8 +26,6 @@ class EditTicketView extends StatelessWidget {
             padding: EdgeInsets.all(16),
             child: Column(
               children: [
-                TitleField(),
-                DescriptionField(),
                 NameField(),
                 PhoneField(),
                 AddressField(),
@@ -35,6 +33,7 @@ class EditTicketView extends StatelessWidget {
                 SubtotalField(),
                 TaxesField(),
                 TotalField(),
+                ImageView(),
               ],
             ),
           ),

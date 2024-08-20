@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
@@ -11,7 +14,7 @@ part 'ticket.g.dart';
 class Ticket extends Equatable {
 
   Ticket({
-    required this.title,
+    this.title = '',
     String? id,
     this.description = '',
     this.name = '',
@@ -23,6 +26,7 @@ class Ticket extends Equatable {
     this.total = 0.0,
     this.isSelected = false,
     this.isATicket = true,
+    this.imageBytes = ''
   }) : assert(
       id == null || id.isNotEmpty,
       'id must either be null or not empty'
@@ -53,6 +57,8 @@ class Ticket extends Equatable {
 
   final bool  isATicket;
 
+  final String imageBytes;
+
   Ticket copyWith({
     String? id,
     String? title,
@@ -66,6 +72,7 @@ class Ticket extends Equatable {
     double? total,
     bool? isSelected,
     bool? isATicket,
+    String? imageBytes,
   }) {
     return Ticket(
       id: id ?? this.id,
@@ -80,6 +87,7 @@ class Ticket extends Equatable {
       total: total ?? this.total,
       isSelected: isSelected ?? this.isSelected,
       isATicket: isATicket ?? this.isATicket,
+      imageBytes: imageBytes ?? this.imageBytes,
     );
   }
 
@@ -89,5 +97,5 @@ class Ticket extends Equatable {
 
   @override
   List<Object> get props => [id, title, description, name, phone, address,
-      dateTime, subtotal, taxes, total, isSelected, isATicket];
+      dateTime, subtotal, taxes, total, isSelected, isATicket, imageBytes];
 }

@@ -31,12 +31,6 @@ import '../bloc/bloc.dart';
                 );
               }
             ),
-            GoRoute(
-              path: 'camera',
-              builder: (context, state){
-                return const CameraScreen();
-              },
-            ),
           ]
         ),
       ]

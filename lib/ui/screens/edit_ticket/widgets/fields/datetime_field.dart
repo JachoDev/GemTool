@@ -13,7 +13,7 @@ class DatetimeField extends StatelessWidget {
     final hintText = state.initialTicket?.dateTime ?? '';
 
     return TextFormField(
-      key: const Key('editTodoView_title_textFormField'),
+      key: const Key('editTodoView_datetime_textFormField'),
       initialValue: state.dateTime,
       decoration: InputDecoration(
         enabled: !state.status.isLoadingOrSuccess,

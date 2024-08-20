@@ -7,7 +7,7 @@ part of 'ticket.dart';
 // **************************************************************************
 
 Ticket _$TicketFromJson(Map<String, dynamic> json) => Ticket(
-      title: json['title'] as String,
+      title: json['title'] as String? ?? '',
       id: json['id'] as String?,
       description: json['description'] as String? ?? '',
       name: json['name'] as String? ?? '',
@@ -19,6 +19,7 @@ Ticket _$TicketFromJson(Map<String, dynamic> json) => Ticket(
       total: (json['total'] as num?)?.toDouble() ?? 0.0,
       isSelected: json['isSelected'] as bool? ?? false,
       isATicket: json['isATicket'] as bool? ?? true,
+      imageBytes: json['imageBytes'] as String? ?? '',
     );
 
 Map<String, dynamic> _$TicketToJson(Ticket instance) => <String, dynamic>{
@@ -34,4 +35,5 @@ Map<String, dynamic> _$TicketToJson(Ticket instance) => <String, dynamic>{
       'total': instance.total,
       'isSelected': instance.isSelected,
       'isATicket': instance.isATicket,
+      'imageBytes': instance.imageBytes,
     };

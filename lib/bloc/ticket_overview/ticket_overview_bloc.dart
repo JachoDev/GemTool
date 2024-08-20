@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tickets_repository/tickets_repository.dart';
@@ -45,8 +47,16 @@ class TicketOverviewBloc extends Bloc<TicketOverviewEvent, TicketOverviewState> 
         TicketOverviewTicketCompletionToggled event,
         Emitter<TicketOverviewState> emit,
       ) async {
+    emit(state.copyWith(status: () => TicketOverviewStatus.loading));
     final newTicket = event.ticket.copyWith(isSelected: event.isSelected);
-    await _ticketsRepository.saveTicket(newTicket);
+
+    try {
+      await _ticketsRepository.saveTicket(newTicket);
+      emit(state.copyWith(status: () => TicketOverviewStatus.success));
+
+    } catch (e) {
+      emit(state.copyWith(status: () => TicketOverviewStatus.failure));
+    }
   }
 
   Future<void> _onTicketDeleted(

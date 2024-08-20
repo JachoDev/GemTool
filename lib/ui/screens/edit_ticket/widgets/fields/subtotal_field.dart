@@ -10,11 +10,11 @@ class SubtotalField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<EditTicketBloc>().state;
-    final hintText = state.initialTicket?.subtotal.toString() ?? '00.00';
+    final hintText = state.initialTicket?.subtotal.toStringAsFixed(2) ?? '00.00';
 
     return TextFormField(
-      key: const Key('editTodoView_title_textFormField'),
-      initialValue: state.subtotal.toString(),
+      key: const Key('editTodoView_subtotal_textFormField'),
+      initialValue: state.subtotal.toStringAsFixed(2),
       decoration: InputDecoration(
         enabled: !state.status.isLoadingOrSuccess,
         labelText: 'Subtotal',
