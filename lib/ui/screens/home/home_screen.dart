@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 import 'widgets/widgets.dart';
 
@@ -15,6 +16,7 @@ class HomeScreen extends StatelessWidget {
             TicketOverviewOptionsButton(),
           ],
         ),
+        floatingActionButtonLocation: ExpandableFab.location,
         floatingActionButton: const HomeAddActionButton(),
         body: const HomeView(),
       );

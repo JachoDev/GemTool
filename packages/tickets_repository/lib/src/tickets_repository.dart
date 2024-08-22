@@ -12,6 +12,12 @@ class TicketsRepository {
 
   Stream<List<Ticket>> getTickets() => _ticketApi.getTickets();
 
+  Stream<List<String>> getApiKey() => _ticketApi.getApiKey();
+
+  Future<void> saveApiKey(String apiKey) => _ticketApi.saveApiKey(apiKey);
+
+  Future<void> deleteApiKey() => _ticketApi.deleteApiKey();
+
   Future<void> saveTicket(Ticket ticket) => _ticketApi.saveTicket(ticket);
 
   Future<void> deleteTicket(String id) => _ticketApi.deleteTicket(id);

@@ -8,6 +8,12 @@ abstract class TicketApi {
 
   Stream<List<Ticket>> getTickets();
 
+  Stream<List<String>> getApiKey();
+
+  Future<void> saveApiKey(String apiKey);
+
+  Future<void> deleteApiKey();
+
   Future<void> saveTicket(Ticket ticket);
 
   Future<void> deleteTicket(String id);

@@ -19,15 +19,8 @@ class GenaiProvider {
       return img.encodePng(image);
     }
 
-    Future<List<String?>> sendPrompt(XFile file) async {
-      const apiKey = '';
-
-      final imagebytes = await file.readAsBytes();
+    Future<String?> sendPrompt(Uint8List? imageBytes, String apiKey) async {
       final assetimg = await imageToUint8List('assets/images/ticket_zara_1.jpg');
-      //final img.Image image = img.decodeImage(imagebytes)!;
-      //final imgPng = img.encodePng(image);
-      // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
-      //XFile? image = await imagePicker()
       final model = GenerativeModel(
         model: 'gemini-1.5-pro',
         apiKey: apiKey,
@@ -54,12 +47,7 @@ class GenaiProvider {
           ),
         ),
       );
-      print(imagebytes);
-      final stringBytes = String.fromCharCodes(assetimg);
-      print(stringBytes);
-      List<int> list = stringBytes.codeUnits;
-      Uint8List bytes = Uint8List.fromList(list);
-      print(bytes);
+      final stringBytes = String.fromCharCodes(imageBytes!);
       final content = [
         Content.text('Get the ticket information, if cannot get a field put "", if not a ticket simulates one.'),
         Content.data('image/jpeg', assetimg),
@@ -69,6 +57,6 @@ class GenaiProvider {
 
       print(response.text);
 
-      return  [stringResponse, stringBytes];
+      return  stringResponse;
     }
 }

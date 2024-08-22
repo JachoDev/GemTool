@@ -22,8 +22,16 @@ class LocalStorageTicketApi extends TicketApi{
     const [],
   );
 
+  late final _apiKeyStreamController = BehaviorSubject<List<String>>.seeded(
+    const [],
+  );
+
   @visibleForTesting
   static const kTicketCollectionKey = '__ticket_collection_key__';
+
+  @visibleForTesting
+  static const kApiKeyCollectionKey = '__api_key_collection_key__';
+
 
   String? _getValue(String key) => _plugin.getString(key);
   Future<void> _setValue(String key, String value) =>
@@ -31,6 +39,7 @@ class LocalStorageTicketApi extends TicketApi{
 
   void _init() {
     final ticketJson = _getValue(kTicketCollectionKey);
+    final apiKeyJson = _getValue(kApiKeyCollectionKey);
     if (ticketJson != null) {
       final tickets = List<Map<dynamic, dynamic>>.from(
         json.decode(ticketJson) as List,
@@ -41,11 +50,40 @@ class LocalStorageTicketApi extends TicketApi{
     } else {
       _ticketStreamController.add(const []);
     }
+    if (apiKeyJson != null) {
+      final apiKey = List<String>.from(
+        json.decode(apiKeyJson) as List,
+      ).map((jsonMap) => jsonMap.toString()).toList();
+      _apiKeyStreamController.add(apiKey);
+    } else {
+      _apiKeyStreamController.add(const []);
+    }
   }
 
   @override
   Stream<List<Ticket>> getTickets() =>
       _ticketStreamController.asBroadcastStream();
+
+  @override
+  Stream<List<String>> getApiKey() => _apiKeyStreamController.asBroadcastStream();
+
+  @override
+  Future<void> saveApiKey(String apiKey) {
+    final apiKeyStore = [..._apiKeyStreamController.value];
+    apiKeyStore.first = apiKey;
+
+    _apiKeyStreamController.add(apiKeyStore);
+    return _setValue(kApiKeyCollectionKey, json.encode(apiKeyStore));
+  }
+
+  @override
+  Future<void> deleteApiKey() async {
+    final apiKeyStore = [..._apiKeyStreamController.value];
+
+    apiKeyStore.clear();
+    _apiKeyStreamController.add(apiKeyStore);
+    return _setValue(kApiKeyCollectionKey, json.encode(apiKeyStore));
+  }
 
   @override
   Future<void> saveTicket(Ticket ticket) {
