@@ -17,6 +17,7 @@ class TicketGenerationBloc extends Bloc<TicketGenerationEvent, TicketGenerationS
         super(TicketGenerationState(bytes: bytes)) {
     on<TicketGenerationSendPrompt>(_onSendPrompt);
     on<TicketGenerationApiKeyRequest>(_apiKeyRequest);
+    on<TicketGenerationVerifyTicket>(_onVerifyTicket);
   }
 
   final TicketsRepository _ticketsRepository;
@@ -43,15 +44,20 @@ class TicketGenerationBloc extends Bloc<TicketGenerationEvent, TicketGenerationS
 
   }
 
-  void _onVerifyTicket() {
-
+  void _onVerifyTicket(
+      TicketGenerationEvent event,
+      Emitter<TicketGenerationState> emit,
+      ) {
+    emit(state.copyWith(
+      isATicket: () => state.generatedTicket!.isATicket,
+    ));
   }
 
   Future<void> _apiKeyRequest(
       TicketGenerationApiKeyRequest event,
       Emitter<TicketGenerationState> emit,
       ) async {
-    //await _ticketsRepository.saveApiKey('');
+    await _ticketsRepository.saveApiKey('AIzaSyAkt1eUEy0PjhKUhu3LicGK7viureJc2xE');
     await emit.forEach(
       _ticketsRepository.getApiKey(),
       onData: (apiKeyStorage) => state.copyWith(

@@ -38,6 +38,7 @@ class HomeView extends StatelessWidget {
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 SnackBar(
+                  width: 50,
                     content: Text('Deleted "${deletedTicket.title}"'),
                     action: SnackBarAction(
                       label: 'Undo delete ticket',

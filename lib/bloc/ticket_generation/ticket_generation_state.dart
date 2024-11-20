@@ -2,6 +2,18 @@ part of 'ticket_generation_bloc.dart';
 
 enum TicketGenerationStatus { initial, loading, success, failure }
 
+extension TicketGenerationStatusX on TicketGenerationStatus {
+  bool get isLoading => [
+    TicketGenerationStatus.loading
+  ].contains(this);
+  bool get isSucces => [
+    TicketGenerationStatus.success
+  ].contains(this);
+  bool get isFailure => [
+    TicketGenerationStatus.failure
+  ].contains(this);
+}
+
 final class TicketGenerationState extends Equatable {
   const TicketGenerationState({
     this.status = TicketGenerationStatus.initial,

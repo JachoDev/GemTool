@@ -8,11 +8,6 @@ import 'package:ticket_api/ticket_api.dart';
 
 import 'bootstrap.dart';
 
-void logError(String code, String? message) {
-  // ignore: avoid_print
-  print('Error: $code${message == null ? '' : '\nError Message: $message'}');
-}
-
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();

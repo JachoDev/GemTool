@@ -18,3 +18,7 @@ final class TicketGenerationApiKeyRequest extends TicketGenerationEvent {
 final class TicketGenerationSaveTicketAndBytes extends TicketGenerationEvent {
   const TicketGenerationSaveTicketAndBytes();
 }
+
+final class TicketGenerationVerifyTicket extends TicketGenerationEvent {
+  const TicketGenerationVerifyTicket();
+}

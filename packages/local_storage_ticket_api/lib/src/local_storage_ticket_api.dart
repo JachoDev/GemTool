@@ -70,7 +70,11 @@ class LocalStorageTicketApi extends TicketApi{
   @override
   Future<void> saveApiKey(String apiKey) {
     final apiKeyStore = [..._apiKeyStreamController.value];
-    apiKeyStore.first = apiKey;
+    if (apiKeyStore.isEmpty) {
+      apiKeyStore.add(apiKey);
+    } else {
+      apiKeyStore.first = apiKey;
+    }
 
     _apiKeyStreamController.add(apiKeyStore);
     return _setValue(kApiKeyCollectionKey, json.encode(apiKeyStore));
