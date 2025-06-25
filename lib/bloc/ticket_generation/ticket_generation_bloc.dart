@@ -57,7 +57,7 @@ class TicketGenerationBloc extends Bloc<TicketGenerationEvent, TicketGenerationS
       TicketGenerationApiKeyRequest event,
       Emitter<TicketGenerationState> emit,
       ) async {
-    await _ticketsRepository.saveApiKey('AIzaSyAkt1eUEy0PjhKUhu3LicGK7viureJc2xE');
+    await _ticketsRepository.saveApiKey();
     await emit.forEach(
       _ticketsRepository.getApiKey(),
       onData: (apiKeyStorage) => state.copyWith(
